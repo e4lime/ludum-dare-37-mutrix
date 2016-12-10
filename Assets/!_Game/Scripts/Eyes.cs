@@ -1,6 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityStandardAssets.Characters.FirstPerson;
+using UnityStandardAssets.CrossPlatformInput;
+
 namespace Mutrix {
+
+    /// <summary>
+    /// Status: Might use
+    /// Control right camera and have left camera as child to right
+    /// 
+    /// </summary>
     public class Eyes : MonoBehaviour {
 
         [Header("Parent of eyes (cameras)"), SerializeField]
@@ -9,10 +18,11 @@ namespace Mutrix {
         private Camera m_LeftCamera;
         [SerializeField]
         private Camera m_RightCamera;
-
+     
 
         public void Awake() {
             CropCameras();
+
         }
 
         private void CropCameras() {
@@ -22,5 +32,6 @@ namespace Mutrix {
             Utility.SetScissorRect(m_LeftCamera, leftRect);
             Utility.SetScissorRect(m_RightCamera, rightRect);
         }
+
     }
 }
