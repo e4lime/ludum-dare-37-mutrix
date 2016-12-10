@@ -1,7 +1,9 @@
 using UnityEngine;
 using System.Collections;
 
-public class PathSplinesBezier : MonoBehaviour {
+namespace DentedPixel.LTExamples{
+
+public class PathBezier : MonoBehaviour {
 
 	public Transform[] trans;
 	
@@ -19,7 +21,7 @@ public class PathSplinesBezier : MonoBehaviour {
 		// Tween automatically
 		LTDescr descr = LeanTween.move(avatar1, cr.pts, 6.5f).setOrientToPath(true).setRepeat(-1);
 		Debug.Log("length of path 1:"+cr.length);
-		Debug.Log("length of path 2:"+descr.path.length);
+		Debug.Log("length of path 2:"+descr.optional.path.length);
 	}
 	
 	private float iter;
@@ -40,4 +42,6 @@ public class PathSplinesBezier : MonoBehaviour {
 		if(cr!=null)
 			cr.gizmoDraw(); // To Visualize the path, use this method
 	}
+}
+
 }
