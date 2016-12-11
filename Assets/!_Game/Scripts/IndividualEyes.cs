@@ -51,8 +51,8 @@ namespace Mutrix {
             Rect leftRect = new Rect(0, 0, 0.5f, 1);
             Rect rightRect = new Rect(0.5f, 0, 0.5f, 1);
 
-            Utility.SetScissorRect(m_LeftCamera, leftRect);
-            Utility.SetScissorRect(m_RightCamera, rightRect);
+            CameraUtility.SetScissorRect(m_LeftCamera, leftRect);
+            CameraUtility.SetScissorRect(m_RightCamera, rightRect);
         }
 
         private void RotateView() {

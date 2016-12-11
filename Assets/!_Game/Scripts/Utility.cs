@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 namespace Mutrix { 
-    public class Utility  {
-
+    public class CameraUtility  {
 
         /// <summary>
         /// "Cuts" the camera so it only shows whats in the rect area
@@ -33,6 +32,24 @@ namespace Mutrix {
             Matrix4x4 m2 = Matrix4x4.TRS(new Vector3((1 / r.width - 1), (1 / r.height - 1), 0), Quaternion.identity, new Vector3(1 / r.width, 1 / r.height, 1));
             Matrix4x4 m3 = Matrix4x4.TRS(new Vector3(-r.x * 2 / r.width, -r.y * 2 / r.height, 0), Quaternion.identity, Vector3.one);
             cam.projectionMatrix = m3 * m2 * m;
+        }
+
+        public static Matrix4x4 CreateScissorProjectionMatrix(Rect r) {
+            if (r.x < 0) {
+                r.width += r.x;
+                r.x = 0;
+            }
+
+            if (r.y < 0) {
+                r.height += r.y;
+                r.y = 0;
+            }
+
+            Matrix4x4 m1 = Matrix4x4.TRS(new Vector3(r.x, r.y, 0), Quaternion.identity, new Vector3(r.width, r.height, 1));
+            Matrix4x4 m2 = Matrix4x4.TRS(new Vector3((1 / r.width - 1), (1 / r.height - 1), 0), Quaternion.identity, new Vector3(1 / r.width, 1 / r.height, 1));
+            Matrix4x4 m3 = Matrix4x4.TRS(new Vector3(-r.x * 2 / r.width, -r.y * 2 / r.height, 0), Quaternion.identity, Vector3.one);
+            return m3 * m2 * m2;
+
         }
     }
 }
