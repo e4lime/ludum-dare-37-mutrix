@@ -16,7 +16,13 @@ namespace Mutrix.WorldObjects {
 
         // Use this for initialization
         void Awake() {
-            ChangeType(m_Type);
+            ChangeType(m_Type, false);
+        }
+
+        void Start() {
+            if (IsMutrix() || IsOther()) {
+                Management.MutrixGame.instance.RegisterDifferenceObject(this);
+            }
         }
 
         public Type GetType() {
@@ -35,8 +41,11 @@ namespace Mutrix.WorldObjects {
         public bool IsThirdDimension() {
             return m_Type == Type.ThirdDimension;
         }
-
         public void ChangeType(Type type) {
+            ChangeType(type, true);
+        }
+
+        private void ChangeType(Type type, bool updateGameManager) {
             switch (type) {
                 case Type.Mutrix:
                     this.gameObject.layer = LayerMask.NameToLayer(Constants.MUTRIX_MASK);
@@ -45,6 +54,11 @@ namespace Mutrix.WorldObjects {
                     this.gameObject.layer = LayerMask.NameToLayer(Constants.OTHER_WORLD_MASK);
                     break;
                 case Type.Both:
+                    if (updateGameManager) {
+                        if (!IsBoth()) {
+                            Management.MutrixGame.instance.DifferenceFound();
+                        }
+                    }
                     this.gameObject.layer = LayerMask.NameToLayer(Constants.BOTH_MASK);
                     break;
                 case Type.ThirdDimension:
