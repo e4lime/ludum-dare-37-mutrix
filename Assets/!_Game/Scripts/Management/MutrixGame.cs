@@ -10,12 +10,15 @@ namespace Mutrix.Management {
         [SerializeField]
         private Text m_DifferencesDisplay;
         [SerializeField]
-        private Text m_ShotsDisplay; 
+        private Text m_ShotsDisplay;
+        [SerializeField]
+        private Text m_EndText;
 
         private int m_TotalShotsMade = 0;
         private int m_TotalDifferences = 0;
         private int m_DifferencesFound = 0;
 
+        private bool m_GameCompleted = false;
 
 
         void Awake() {
@@ -25,8 +28,10 @@ namespace Mutrix.Management {
             else {
                 Debug.LogError("Double MutrixGame", this);
             }
+            m_EndText.gameObject.SetActive(false);
             UpdateDifferenceDisplay();
             UpdateShotsDisplay();
+
         }
 
        
@@ -41,14 +46,24 @@ namespace Mutrix.Management {
             UpdateDifferenceDisplay();
         }
 
+
+
         public void DifferenceFound() {
+            if (m_GameCompleted) return;
             m_DifferencesFound++;
             UpdateDifferenceDisplay();
+            if (m_DifferencesFound == m_TotalDifferences) {
+                m_GameCompleted = true;
+                m_EndText.gameObject.SetActive(true);
+            }
         }
         
         public void ShotMade() {
+            if (m_GameCompleted) return;
             m_TotalShotsMade++;
             UpdateShotsDisplay();
+
+          
         }
 
         public int GetDifferencesLeft() {
