@@ -48,3 +48,6 @@ sysinfo.txt
 
 #Unity Projectsettings, so we dont accidently screw things up
 #/ProjectSettings/
+
+#ProBuilder
+/Assets/ProCore/
