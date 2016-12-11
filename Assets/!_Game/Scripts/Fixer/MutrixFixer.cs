@@ -84,13 +84,15 @@ namespace Mutrix.Fixer {
             GameObject targetLeft = m_LeftEye.Fire();
             GameObject targetRight = m_RightEye.Fire();
 
+            // Same target?
             if ((targetLeft != null && targetRight != null) && targetLeft == targetRight) {
                 WorldObject left = targetLeft.GetComponent<WorldObject>();
                 WorldObject right = targetRight.GetComponent<WorldObject>();
                 if (left == null || right == null) {
                     // Shot structure
                     ChangeState(State.Shooting);
-                    m_RightEye.ShootMiss();
+                    m_LeftEye.ShootHit();
+                    m_RightEye.ShootHit();
                 }
                 // Connect! Targets arent in same world yet
                 else if (!left.IsBoth() && !right.IsBoth()) {
@@ -153,6 +155,9 @@ namespace Mutrix.Fixer {
 
             public ParticleSystem hitParticlesLeft;
             public ParticleSystem hitParticlesRight;
+
+            public ParticleSystem connectingParticlesLeft;
+            public ParticleSystem connectingParticlesRight;
 
 
             [Range(0, 100)]
