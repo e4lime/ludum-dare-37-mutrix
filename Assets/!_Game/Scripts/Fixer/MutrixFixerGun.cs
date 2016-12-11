@@ -16,13 +16,15 @@ namespace Mutrix.Fixer {
         private LineRenderer m_LineRenderer;
 
         private Vector3 m_LastFireHitPoint;
+        private Vector3 m_LastConnectionMiddlePoint;
         private Ray m_LastFireRay;
 
         private bool m_LeftGun;
 
         private ParticleSystem m_HitParticleToUse;
         private ParticleSystem m_ConnectingParticleToUse;
-        private ParticleSystem m_AttentionPArticleToUse;
+        private ParticleSystem m_AttentionParticleToUse;
+        private ParticleSystem m_BigConnectionParticleToUse;
 
         void Awake() {
             m_Camera = GetComponent<Camera>();
@@ -35,17 +37,17 @@ namespace Mutrix.Fixer {
 
         public void Setup(bool isLeftGun) {
             m_LeftGun = isLeftGun;
-
+            m_BigConnectionParticleToUse = m_FixerData.BigConnectingParticles;
 
             if (m_LeftGun) {
                 m_HitParticleToUse = m_FixerData.hitParticlesLeft;
                 m_ConnectingParticleToUse = m_FixerData.connectingParticlesLeft;
-                m_AttentionPArticleToUse = m_FixerData.attentionParticlesLeft;
+                m_AttentionParticleToUse = m_FixerData.attentionParticlesLeft;
             }
             else {
                 m_HitParticleToUse = m_FixerData.hitParticlesRight;
                 m_ConnectingParticleToUse = m_FixerData.connectingParticlesRight;
-                m_AttentionPArticleToUse = m_FixerData.attentionParticlesRight;
+                m_AttentionParticleToUse = m_FixerData.attentionParticlesRight;
             }
         }
 
@@ -61,6 +63,8 @@ namespace Mutrix.Fixer {
             this.m_LastFireRay = ray;
             if (Physics.Raycast(ray, out hit, m_FixerData.fireLength)) {
                 m_LastFireHitPoint = hit.point;
+            
+                m_LastConnectionMiddlePoint = hit.transform.position;
                 return hit.transform.gameObject;
                 // GameObject s = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                 // s.transform.position = hit.point;
@@ -77,7 +81,9 @@ namespace Mutrix.Fixer {
             m_LineRenderer.enabled = false;
             m_HitParticleToUse.gameObject.SetActive(false);
             m_ConnectingParticleToUse.gameObject.SetActive(false);
-            m_AttentionPArticleToUse.gameObject.SetActive(false);
+            m_AttentionParticleToUse.gameObject.SetActive(false);
+            m_BigConnectionParticleToUse.gameObject.SetActive(false);
+
         }
 
         public void ShootHit() {
@@ -87,8 +93,8 @@ namespace Mutrix.Fixer {
             m_LineRenderer.enabled = true;
             m_HitParticleToUse.transform.position = m_LastFireHitPoint;
             m_HitParticleToUse.gameObject.SetActive(true);
-            m_AttentionPArticleToUse.transform.position = m_LastFireHitPoint;
-            m_AttentionPArticleToUse.gameObject.SetActive(true);
+            m_AttentionParticleToUse.transform.position = m_LastFireHitPoint;
+            m_AttentionParticleToUse.gameObject.SetActive(true);
         }
 
         public void ShootMiss() {
@@ -105,8 +111,8 @@ namespace Mutrix.Fixer {
             m_LineRenderer.SetPosition(0, m_FixerLaserOrigin.position);
             m_LineRenderer.SetPosition(1, m_LastFireHitPoint);
             m_LineRenderer.enabled = true;
-            m_AttentionPArticleToUse.transform.position = m_LastFireHitPoint;
-            m_AttentionPArticleToUse.gameObject.SetActive(true);
+            m_AttentionParticleToUse.transform.position = m_LastFireHitPoint;
+            m_AttentionParticleToUse.gameObject.SetActive(true);
         }
 
         public void ShootConnected() {
@@ -115,6 +121,11 @@ namespace Mutrix.Fixer {
             m_LineRenderer.SetPosition(1, m_LastFireHitPoint);
             m_ConnectingParticleToUse.transform.position = m_LastFireHitPoint;
             m_ConnectingParticleToUse.gameObject.SetActive(true);
+            m_BigConnectionParticleToUse.transform.position = m_LastConnectionMiddlePoint;
+            m_BigConnectionParticleToUse.gameObject.SetActive(true);
+
+
+
             m_LineRenderer.enabled = true;
 
         }

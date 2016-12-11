@@ -162,6 +162,8 @@ namespace Mutrix.Fixer {
             public ParticleSystem attentionParticlesLeft;
             public ParticleSystem attentionParticlesRight;
 
+            public ParticleSystem BigConnectingParticles;
+
 
             [Range(0, 100)]
             public float fireLength;
