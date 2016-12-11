@@ -19,12 +19,24 @@ namespace Mutrix.WorldObjects {
             ChangeType(m_Type);
         }
 
-        // Update is called once per frame
-        void Update() {
-
+        public Type GetType() {
+            return this.m_Type;
+        }
+     
+        public bool IsMutrix() {
+            return m_Type == Type.Mutrix;
+        }
+        public bool IsOther() {
+            return m_Type == Type.Other;
+        }
+        public bool IsBoth() {
+            return m_Type == Type.Both;
+        }
+        public bool IsThirdDimension() {
+            return m_Type == Type.ThirdDimension;
         }
 
-        private void ChangeType(Type type) {
+        public void ChangeType(Type type) {
             switch (type) {
                 case Type.Mutrix:
                     this.gameObject.layer = LayerMask.NameToLayer(Constants.MUTRIX_MASK);
@@ -42,6 +54,7 @@ namespace Mutrix.WorldObjects {
                     Debug.LogError("Type is NOT SET!", this);
                     break;
             }
+            m_Type = type;
         }
     }
 }

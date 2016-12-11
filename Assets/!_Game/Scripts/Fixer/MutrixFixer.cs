@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityStandardAssets.CrossPlatformInput;
+using Mutrix.WorldObjects;
+
 namespace Mutrix.Fixer {
 
 
@@ -83,9 +85,29 @@ namespace Mutrix.Fixer {
             GameObject targetRight = m_RightEye.Fire();
 
             if ((targetLeft != null && targetRight != null) && targetLeft == targetRight) {
-                ChangeState(State.ShootingConnected);
-                m_LeftEye.ShootConnected();
-                m_RightEye.ShootConnected();
+                WorldObject left = targetLeft.GetComponent<WorldObject>();
+                WorldObject right = targetRight.GetComponent<WorldObject>();
+                if (left == null || right == null) {
+                    // Shot structure
+                    ChangeState(State.Shooting);
+                    m_RightEye.ShootMiss();
+                }
+                // Connect! Targets arent in same world yet
+                else if (!left.IsBoth() && !right.IsBoth()) {
+                    
+                    ChangeState(State.ShootingConnected);
+                    left.ChangeType(WorldObject.Type.Both);
+                    right.ChangeType(WorldObject.Type.Both);
+                    m_LeftEye.ShootConnected();
+                    m_RightEye.ShootConnected();
+                }
+                else {
+                    //Already in both worlds
+                    ChangeState(State.Shooting);
+                    m_LeftEye.ShootHit();
+                    m_RightEye.ShootHit();
+                }
+                
             }
             else {
                 if (targetLeft == null) {
