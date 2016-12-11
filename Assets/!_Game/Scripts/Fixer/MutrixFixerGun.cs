@@ -22,6 +22,7 @@ namespace Mutrix.Fixer {
 
         private ParticleSystem m_HitParticleToUse;
         private ParticleSystem m_ConnectingParticleToUse;
+        private ParticleSystem m_AttentionPArticleToUse;
 
         void Awake() {
             m_Camera = GetComponent<Camera>();
@@ -39,10 +40,12 @@ namespace Mutrix.Fixer {
             if (m_LeftGun) {
                 m_HitParticleToUse = m_FixerData.hitParticlesLeft;
                 m_ConnectingParticleToUse = m_FixerData.connectingParticlesLeft;
+                m_AttentionPArticleToUse = m_FixerData.attentionParticlesLeft;
             }
             else {
                 m_HitParticleToUse = m_FixerData.hitParticlesRight;
                 m_ConnectingParticleToUse = m_FixerData.connectingParticlesRight;
+                m_AttentionPArticleToUse = m_FixerData.attentionParticlesRight;
             }
         }
 
@@ -74,6 +77,7 @@ namespace Mutrix.Fixer {
             m_LineRenderer.enabled = false;
             m_HitParticleToUse.gameObject.SetActive(false);
             m_ConnectingParticleToUse.gameObject.SetActive(false);
+            m_AttentionPArticleToUse.gameObject.SetActive(false);
         }
 
         public void ShootHit() {
@@ -83,6 +87,8 @@ namespace Mutrix.Fixer {
             m_LineRenderer.enabled = true;
             m_HitParticleToUse.transform.position = m_LastFireHitPoint;
             m_HitParticleToUse.gameObject.SetActive(true);
+            m_AttentionPArticleToUse.transform.position = m_LastFireHitPoint;
+            m_AttentionPArticleToUse.gameObject.SetActive(true);
         }
 
         public void ShootMiss() {
@@ -91,6 +97,16 @@ namespace Mutrix.Fixer {
             m_LineRenderer.SetPosition(0, m_FixerLaserOrigin.position);
             m_LineRenderer.SetPosition(1, m_LastFireRay.origin + (m_LastFireRay.direction * 10f));
             m_LineRenderer.enabled = true;
+        }
+
+        public void ShootAttention() {
+            //Same as hitlaser but different particle
+            m_LineRenderer.material = m_FixerData.hitLaser;
+            m_LineRenderer.SetPosition(0, m_FixerLaserOrigin.position);
+            m_LineRenderer.SetPosition(1, m_LastFireHitPoint);
+            m_LineRenderer.enabled = true;
+            m_AttentionPArticleToUse.transform.position = m_LastFireHitPoint;
+            m_AttentionPArticleToUse.gameObject.SetActive(true);
         }
 
         public void ShootConnected() {
