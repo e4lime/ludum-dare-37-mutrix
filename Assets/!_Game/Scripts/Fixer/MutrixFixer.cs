@@ -37,6 +37,9 @@ namespace Mutrix.Fixer {
 
         void Start() {
             m_Controller = GetComponent<FirstPersonControllerTwoEyes>();
+
+            m_LeftEye.Setup(true);
+            m_RightEye.Setup(false);
         }
 
         // Update is called once per frame
@@ -125,6 +128,10 @@ namespace Mutrix.Fixer {
             public float laserWidthConnect;
             public float laserTimeHit;
             public float laserTimeConnect;
+
+            public ParticleSystem hitParticlesLeft;
+            public ParticleSystem hitParticlesRight;
+
 
             [Range(0, 100)]
             public float fireLength;

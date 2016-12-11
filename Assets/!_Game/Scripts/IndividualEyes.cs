@@ -31,6 +31,16 @@ namespace Mutrix {
         private Transform m_RightCameraSocket;
 
         [SerializeField]
+        private Camera m_LeftBackgroundCamera;
+        [SerializeField]
+        private Camera m_RightBackgroundCamera;
+
+        [SerializeField]
+        private Camera m_LeftOnlyBoth;
+        [SerializeField]
+        private Camera m_RightOnlyBoth;
+
+        [SerializeField]
         private MouseLook m_MouseLookLeft;
 
         [SerializeField]
@@ -58,6 +68,11 @@ namespace Mutrix {
 
             CameraUtility.SetScissorRect(m_LeftCamera, leftRect);
             CameraUtility.SetScissorRect(m_RightCamera, rightRect);
+            CameraUtility.SetScissorRect(m_LeftBackgroundCamera, leftRect); 
+            CameraUtility.SetScissorRect(m_RightBackgroundCamera, rightRect);
+            CameraUtility.SetScissorRect(m_LeftOnlyBoth, leftRect);
+            CameraUtility.SetScissorRect(m_RightOnlyBoth, rightRect);
+
         }
 
         private void RotateView() {

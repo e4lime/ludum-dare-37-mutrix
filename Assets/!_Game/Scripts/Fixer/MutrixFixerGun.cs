@@ -17,7 +17,10 @@ namespace Mutrix.Fixer {
 
         private Vector3 m_LastFireHitPoint;
         private Ray m_LastFireRay;
-      
+
+        private bool m_LeftGun;
+
+        private ParticleSystem m_HitParticleToUse;
         
         void Awake() {
             m_Camera = GetComponent<Camera>();
@@ -25,6 +28,19 @@ namespace Mutrix.Fixer {
             m_FixerData = m_MutrixFixer.GetFixerGunData();
 
             m_LineRenderer.SetWidth(m_FixerData.laserWidthHit, m_FixerData.laserWidthHit);
+        }
+
+
+        public void Setup(bool isLeftGun) {
+            m_LeftGun = isLeftGun;
+
+
+            if (m_LeftGun) {
+                m_HitParticleToUse = m_FixerData.hitParticlesLeft;
+            }
+            else {
+                m_HitParticleToUse = m_FixerData.hitParticlesRight;
+            }
         }
 
         /// <summary>
@@ -53,6 +69,7 @@ namespace Mutrix.Fixer {
         
         public void StopFire() {
             m_LineRenderer.enabled = false;
+            m_HitParticleToUse.gameObject.SetActive(false);
         }
 
         public void ShootHit() {
@@ -60,6 +77,8 @@ namespace Mutrix.Fixer {
             m_LineRenderer.SetPosition(0, m_FixerLaserOrigin.position);
             m_LineRenderer.SetPosition(1, m_LastFireHitPoint);
             m_LineRenderer.enabled = true;
+            m_HitParticleToUse.transform.position = m_LastFireHitPoint;
+            m_HitParticleToUse.gameObject.SetActive(true);
         }
 
         public void ShootMiss() {
