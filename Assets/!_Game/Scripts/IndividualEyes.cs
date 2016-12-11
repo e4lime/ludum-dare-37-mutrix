@@ -17,7 +17,8 @@ namespace Mutrix {
     ///     Potential fix: Edit MouseLook so it uses world rotation?
     /// </summary>
     public class IndividualEyes : MonoBehaviour {
-
+        [Header("Control eyes simultaneously when both buttons are clicked"), SerializeField]
+        private bool m_ControlBothEyes = false;
         [Header("Parent of eyes (cameras)"), SerializeField]
         private Transform m_Head;
         [Header("Eyes"), SerializeField]
@@ -37,6 +38,8 @@ namespace Mutrix {
 
         [Header("Lock v-rotation so it wont bug"), SerializeField]
         private MouseLook m_MouseLookHead;
+
+
 
         private bool m_Fire1IsDown = false;
         private bool m_Fire2IsDown = false;
@@ -58,13 +61,25 @@ namespace Mutrix {
         }
 
         private void RotateView() {
-            if (m_Fire1IsDown) {
-                m_MouseLookLeft.LookRotation(m_LeftCameraSocket, m_LeftCamera.transform);
-            }
-            else if (m_Fire2IsDown) {
-                m_MouseLookRight.LookRotation(m_RightCameraSocket, m_RightCamera.transform);
+            if (m_ControlBothEyes) {
+
+                if (m_Fire1IsDown) {
+                    m_MouseLookLeft.LookRotation(m_LeftCameraSocket, m_LeftCamera.transform);
+                }
+                if (m_Fire2IsDown) {
+                    m_MouseLookRight.LookRotation(m_RightCameraSocket, m_RightCamera.transform);
+                }
             }
             else {
+                if (m_Fire1IsDown) {
+                    m_MouseLookLeft.LookRotation(m_LeftCameraSocket, m_LeftCamera.transform);
+                }
+                else if (m_Fire2IsDown) {
+                    m_MouseLookRight.LookRotation(m_RightCameraSocket, m_RightCamera.transform);
+                }
+            }
+
+            if (!m_Fire1IsDown && !m_Fire2IsDown){
                 m_MouseLookHead.LookRotation(transform, m_Head);
             }
 
@@ -78,7 +93,7 @@ namespace Mutrix {
               
                 m_Fire1IsDown = true;
             }
-            else if (CrossPlatformInputManager.GetButtonDown("Fire2")) {
+            if (CrossPlatformInputManager.GetButtonDown("Fire2")) {
              
       
                 m_Fire2IsDown = true;
@@ -88,7 +103,7 @@ namespace Mutrix {
             if (CrossPlatformInputManager.GetButtonUp("Fire1")) {
                 m_Fire1IsDown = false;
             }
-            else if (CrossPlatformInputManager.GetButtonUp("Fire2")) {
+            if (CrossPlatformInputManager.GetButtonUp("Fire2")) {
                 m_Fire2IsDown = false;
             }
 
