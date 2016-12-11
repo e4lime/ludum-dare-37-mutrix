@@ -9,7 +9,7 @@ namespace Mutrix.Fixer {
     /// <summary>
     /// Waaay to tired when I did this. The state thing is just annoying.
     /// 
-    /// Dependent on FPCTwoEyes state
+    /// Dependent on the Controllers state (won't shoot when moving)
     /// </summary>
     public class MutrixFixer : MonoBehaviour {
 
@@ -83,6 +83,8 @@ namespace Mutrix.Fixer {
         private void FireGuns() {
             GameObject targetLeft = m_LeftEye.Fire();
             GameObject targetRight = m_RightEye.Fire();
+
+            Management.MutrixGame.instance.ShotMade();
 
             // Same target?
             if ((targetLeft != null && targetRight != null) && targetLeft == targetRight) {
