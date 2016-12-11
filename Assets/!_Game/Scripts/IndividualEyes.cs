@@ -6,13 +6,15 @@ using UnityStandardAssets.CrossPlatformInput;
 namespace Mutrix {
 
     /// <summary>
-    /// Status: Ditch it
+    /// Status: Use it! Its weird but more fun than the other controllers
     /// 
     /// Press and hold mouse left to control left eye
     /// Press and hold mouse right to control right eye
     /// Release both to control head
     /// 
-    /// Eyes are dependent on head rotations so it gets buggy at certain angles
+    /// Eyes are dependent on head rotations so it gets buggy at certain angles.
+    ///     Locked x rotation on head a bit so it won't risk getting buggy
+    ///     Potential fix: Edit MouseLook so it uses world rotation?
     /// </summary>
     public class IndividualEyes : MonoBehaviour {
 
@@ -33,7 +35,7 @@ namespace Mutrix {
         [SerializeField]
         private MouseLook m_MouseLookRight;
 
-        [SerializeField]
+        [Header("Lock v-rotation so it wont bug"), SerializeField]
         private MouseLook m_MouseLookHead;
 
         private bool m_Fire1IsDown = false;

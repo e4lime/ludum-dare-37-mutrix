@@ -19,7 +19,7 @@ namespace Mutrix {
             CropCameras();
            
             if (m_CreateFrustum) {
-                Debug.Log("awake");
+    
                 MeshFilter filter = m_CenterCamera.GetComponent<MeshFilter>();
                 if (filter == null) {
                     filter = m_CenterCamera.gameObject.AddComponent<MeshFilter>();
