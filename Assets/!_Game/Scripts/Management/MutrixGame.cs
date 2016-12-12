@@ -14,6 +14,45 @@ namespace Mutrix.Management {
         [SerializeField]
         private Text m_EndText;
 
+        [SerializeField]
+        private DisabledGameStuffAtStart m_DisabledGameStuffAtStart;
+
+        [SerializeField]
+        private DisabledMenuStuffAtGame m_DisabledMenuStuffAtGame;
+
+        [System.Serializable]
+        public class DisabledGameStuffAtStart {
+            public RectTransform gameGUI;
+            public GameObject characterController;
+            public RectTransform gameInstructions;
+
+            public void SetActiveOnAll(bool active) {
+                gameGUI.gameObject.SetActive(active);
+                gameInstructions.gameObject.SetActive(active);
+                characterController.gameObject.SetActive(active);
+
+            }
+        }
+
+        [System.Serializable]
+        public class DisabledMenuStuffAtGame {
+            public RectTransform menuGUI;
+
+            public void SetActiveOnAll(bool active) {
+                menuGUI.gameObject.SetActive(active);
+
+            }
+        }
+
+
+        public void StartGame() {
+            m_DisabledMenuStuffAtGame.SetActiveOnAll(false);
+            m_DisabledGameStuffAtStart.SetActiveOnAll(true);
+        }
+
+
+
+
         private int m_TotalShotsMade = 0;
         private int m_TotalDifferences = 0;
         private int m_DifferencesFound = 0;
@@ -28,9 +67,14 @@ namespace Mutrix.Management {
             else {
                 Debug.LogError("Double MutrixGame", this);
             }
+            m_DisabledGameStuffAtStart.SetActiveOnAll(false);
+            m_DisabledMenuStuffAtGame.SetActiveOnAll(true);
+
             m_EndText.gameObject.SetActive(false);
             UpdateDifferenceDisplay();
             UpdateShotsDisplay();
+
+            
 
         }
 
