@@ -22,7 +22,7 @@ namespace Mutrix.Tweens {
         void Start() {
 
             Rigidbody rb = GetComponent<Rigidbody>();
-            rb.DORotate(m_Rotate, m_TimeRotate, m_RotateMode).SetLoops(-1, m_LoopType).SetEase(m_Ease);
+            rb.DORotate(new Vector3(0, 0, 0), m_TimeRotate, m_RotateMode).SetLoops(-1, m_LoopType).SetEase(m_Ease);
         }
     }
 }
