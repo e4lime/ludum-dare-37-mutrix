@@ -62,6 +62,14 @@ namespace Mutrix {
             m_MouseLookHead.Init(transform, m_Head);
         }
 
+        public MouseLook GetMouseLookLeft() {
+            return m_MouseLookLeft;
+        }
+
+        public MouseLook GetMouseLookRight() {
+            return m_MouseLookRight;
+        }
+
         private void CropCameras() {
             Rect leftRect = new Rect(0, 0, 0.5f, 1);
             Rect rightRect = new Rect(0.5f, 0, 0.5f, 1);

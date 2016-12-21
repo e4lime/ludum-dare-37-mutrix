@@ -2,18 +2,23 @@
 using System.Collections;
 using UnityStandardAssets.CrossPlatformInput;
 using DG.Tweening;
+using UnityStandardAssets.Characters.FirstPerson;
 
 namespace Mutrix.Fixer {
     public class ResetEyes : MonoBehaviour {
 
         [SerializeField]
-        Transform m_LeftSocket;
+        private Transform m_LeftSocket;
         [SerializeField]
-        Transform m_LeftEye;
+        private Transform m_LeftEye;
         [SerializeField]
-        Transform m_RightSocket;
+        private Transform m_RightSocket;
         [SerializeField]
-        Transform m_RightEye;
+        private Transform m_RightEye;
+
+       
+        private MouseLook m_LeftEyeMouseLook;
+        private MouseLook m_RightEyeMouseLook;
 
 
         [SerializeField]
@@ -26,7 +31,11 @@ namespace Mutrix.Fixer {
 
         private bool m_ResetEyes;
 
-        
+        void Start() {
+            IndividualEyes eyes = GetComponent<IndividualEyes>();
+            m_LeftEyeMouseLook = eyes.GetMouseLookLeft();
+            m_RightEyeMouseLook = eyes.GetMouseLookRight();
+        }
       
         void Update() {
             if (!m_ResetEyes) {
@@ -36,16 +45,26 @@ namespace Mutrix.Fixer {
 
             if (m_ResetEyes) {
                 StartResetEyes();
+                m_LeftEyeMouseLook.ResetRotations();
+                m_RightEyeMouseLook.ResetRotations();
             }
 
         }
 
         private void StartResetEyes() {
 
-            m_LeftSocket.DOLocalRotate(new Vector3(0, 0, 0), m_TimeRotate, m_RotateMode).SetEase(m_Ease);
-            m_RightSocket.DOLocalRotate(new Vector3(0, 0, 0), m_TimeRotate, m_RotateMode).SetEase(m_Ease);
-            m_LeftEye.DOLocalRotate(new Vector3(0, 0, 0), m_TimeRotate, m_RotateMode).SetEase(m_Ease);
-            m_RightEye.DOLocalRotate(new Vector3(0, 0, 0), m_TimeRotate, m_RotateMode).SetEase(m_Ease);
+            Sequence seq = DOTween.Sequence();
+            
+            seq.Insert(0, m_LeftSocket.DOLocalRotate(new Vector3(0, 0, 0), m_TimeRotate, m_RotateMode).SetEase(m_Ease));
+            seq.Insert(0, m_RightSocket.DOLocalRotate(new Vector3(0, 0, 0), m_TimeRotate, m_RotateMode).SetEase(m_Ease));
+            seq.Insert(0, m_LeftEye.DOLocalRotate(new Vector3(0, 0, 0), m_TimeRotate, m_RotateMode).SetEase(m_Ease));
+            seq.Insert(0, m_RightEye.DOLocalRotate(new Vector3(0, 0, 0), m_TimeRotate, m_RotateMode).SetEase(m_Ease));
+           // seq.AppendCallback();
+
+        //    m_LeftSocket.DOLocalRotate(new Vector3(0, 0, 0), m_TimeRotate, m_RotateMode).SetEase(m_Ease);
+        //    m_RightSocket.DOLocalRotate(new Vector3(0, 0, 0), m_TimeRotate, m_RotateMode).SetEase(m_Ease);
+        //    m_LeftEye.DOLocalRotate(new Vector3(0, 0, 0), m_TimeRotate, m_RotateMode).SetEase(m_Ease);
+        //    m_RightEye.DOLocalRotate(new Vector3(0, 0, 0), m_TimeRotate, m_RotateMode).SetEase(m_Ease);
 
             m_ResetEyes = false;
         }
